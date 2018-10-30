@@ -1,5 +1,31 @@
 jQuery(function ($) {
+    
+    if ($(window).width() <= 768) {  
+ 
+        $(".page-wrapper").removeClass("toggled");
 
+    }
+
+    else {
+
+        $(".page-wrapper").addClass("toggled");
+
+    }
+    
+    $(window).resize(function(){
+
+        if ($(window).width() <= 768) {  
+ 
+            $(".page-wrapper").removeClass("toggled");
+ 
+        }
+
+        else {
+ 
+            $(".page-wrapper").addClass("toggled");
+ 
+        }
+    });
     // Dropdown menu
     $(".sidebar-dropdown > a").click(function () {
         $(".sidebar-submenu").slideUp(200);
@@ -58,4 +84,5 @@ jQuery(function ($) {
         $(".sidebar-content").addClass("desktop");
 
     }
+
 });
