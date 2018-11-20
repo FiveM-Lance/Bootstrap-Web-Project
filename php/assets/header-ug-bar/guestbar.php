@@ -1,0 +1,2 @@
+<button class="btn btn-outline-success my-2 my-sm-0" href="#loginPrompt" data-toggle="modal" style="margin-right: 10px; width: 150px;">Login</button>
+<button class="btn btn-outline-success my-2 my-sm-0" href="#registerPrompt" data-toggle="modal" style="margin-right: 10px; width: 150px;">Register</button>
