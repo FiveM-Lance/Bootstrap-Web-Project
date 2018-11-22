@@ -1,6 +1,6 @@
 CREATE DATABASE `website` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-use 'website';
+use website;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
