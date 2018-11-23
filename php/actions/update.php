@@ -1,35 +1,21 @@
 <?php
 	error_reporting(0);
     session_start();
-	$response = array(
-		"new_username" => array(
+	$response = array();
+
+	include $_SERVER["DOCUMENT_ROOT"] . "/php/assets/db.php";
+	
+	// Update Username //
+	
+	if(isset($_POST['new_username']))
+    {
+		$response["new_username"] = array(
 			"updating" 	=> false,
 			"status" 	=> false,
 			"msg" 		=> "",
 			"form_id"	=> "#user-name",
 			"input_id"	=> "new_username"
-		),
-		"new_displayname" => array(
-			"updating" 	=> false,
-			"status" 	=> false,
-			"msg" 		=> "",
-			"form_id"	=> "#display-name",
-			"input_id"	=> "new_displayname"
-		),
-		"new_profile_picture" => array(
-			"updating" 	=> false,
-			"status" 	=> false,
-			"msg" 		=> "",
-			"form_id"	=> "#profile-picture",
-			"input_id"	=> "new_profile_picture"
-		)
-	);
-
-	include $_SERVER["DOCUMENT_ROOT"] . "/php/assets/db.php";
-	
-	// Update Username //
-	if(isset($_POST['new_username']))
-    {
+		);
 
 		if ($_POST['new_username'] == '')
 		{
@@ -69,8 +55,18 @@
 		
 	}
 	
+	// Update Displayname //
+
 	if(isset($_POST['new_displayname']))
 	{
+		$response["new_displayname"] = array(
+			"updating" 	=> false,
+			"status" 	=> false,
+			"msg" 		=> "",
+			"form_id"	=> "#display-name",
+			"input_id"	=> "new_displayname"
+		);
+
 		$displayname = mysqli_real_escape_string($conn, $_POST['new_displayname']);
 
 		if ($_POST['new_displayname'] == '') 
