@@ -51,15 +51,19 @@
                                 <small id="display-name-update-hint" class="settings-update-hint form-group text-danger"></small>    
                             </div>
                         </div>
+                        <div>
+                            <h4 style="margin-bottom: 0px;display: inline-block;" class="align-middle">Profile Picture</h4>
+                            <button id="profile-picture-update-toggle" class="btn btn-primary fa fa-pencil" type="button" style="padding: 5px;"></button>
+                        </div>
+                        <hr>
                         <div class="form-group row">
-                            <label for="new_profilepicture" class="col-sm-2 col-form-label" style="text-align: right;">Profile Picture</label>
                             <div class="form-inline col-sm-10"> 
                                 <label>
-                                    <input type="image" src="http://localhost/images/image_upload.png" style="z-index: 1;height: 150px;width: 150px;">
-                                    <input type="file" id="new_profilepicture" style="display: none;">
+                                    <img src="http://localhost/images/image_upload.png" style="z-index: 1;height: 150px;width: 150px;">
+                                    <input type="file" id="new_profilepicture" name="new_profilepicture" style="display: none;">
                                     <img id="new_profilepicture_display" src="http://localhost/images/users/default.jpg" style="border-radius: 50%;width: 150px;height: 150px;position: absolute;">
                                 </label>
-                                <small id="display-name-update-hint" class="settings-update-hint form-group text-danger"></small>    
+                                <small id="profile-picture-update-hint" class="settings-update-hint form-group text-danger"></small>    
                             </div>
                         </div>
                     </div>

@@ -77,9 +77,9 @@
 		else 
 		{
 			$response['new_displayname']['updating'] = true;
-			if(strlen($displayname) < 6 || strlen($displayname) > 15){
+			if(strlen($displayname) > 15){
 				$response['new_displayname']['status'] = false;
-				$response['new_displayname']['msg'] = 'Your username must be 6 to 15 characters';
+				$response['new_displayname']['msg'] = 'Your display name must be 15 characters or lower.';
 			}
 			else if (!preg_match("/^[a-zA-Z0-9 ]+$/", $displayname))
 			{
@@ -99,6 +99,57 @@
 		
 				$response['new_displayname']['status'] = true;
 				$response['new_displayname']['msg'] = 'Updated!';
+			}
+		}
+	}
+
+	if(isset($_FILES["new_profilepicture"]["name"])) 
+	{
+		$response["new_profilepicture"] = array(
+			"updating" 	=> true,
+			"status" 	=> true,
+			"msg" 		=> "",
+			"form_id"	=> "#profile-picture",
+			"input_id"	=> "new_profilepicture"
+		);
+		// Update Profile Picture //
+		$extension = pathinfo($_FILES["new_profilepicture"]["name"], PATHINFO_EXTENSION);
+		$name = $_SESSION['user_id'];
+		$target_dir = "/images/users/";
+		$target_file = $target_dir . basename($_FILES["new_profilepicture"]["name"]);
+		$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+		// Check if image file is a actual image or fake image
+		$check = getimagesize($_FILES["new_profilepicture"]["tmp_name"]);
+		if($check == false) {
+			$response["new_profilepicture"]["msg"] = "File is not an image.";
+			$response["new_profilepicture"]["status"] = false;
+		}
+		// Check file size
+		if ($_FILES["new_profilepicture"]["size"] > 5000000) {
+			$response["new_profilepicture"]["msg"] = "Sorry, your file is too large.";
+			$response["new_profilepicture"]["status"] = false;
+		}
+		// Allow certain file formats
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) 
+		{
+			$response["new_profilepicture"]["msg"] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+			$response["new_profilepicture"]["status"] = false;
+		}
+		// Check if $uploadOk is set to 0 by an error
+		if ($response["new_profilepicture"]["status"] == true)  
+		{
+			if (move_uploaded_file($_FILES["new_profilepicture"]["tmp_name"], $_SERVER["DOCUMENT_ROOT"] . $target_dir . $name . "." . $extension)) 
+			{
+				$profilePictureLocation = 'images/users/'. $name .'.'. $extension;
+				$response["new_profilepicture"]["msg"] 		= "The profile picture has been updated.";
+				$response["new_profilepicture"]["status"] 	= true;
+				$conn->query("UPDATE users SET profile_picture = '" . $profilePictureLocation . "' WHERE id=". $_SESSION['user_id'] .";");
+				$_SESSION['profile_picture'] = $profilePictureLocation;
+			} 
+			else 
+			{
+				$response["new_profilepicture"]["msg"] 		= "Sorry, there was an error uploading your file.";
+				$response["new_profilepicture"]["status"] 	= false;
 			}
 		}
 	}

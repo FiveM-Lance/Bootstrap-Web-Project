@@ -1,5 +1,5 @@
-var field_options		= ["user-name", "display-name"];
-var input_names 		= ["new_username", "new_displayname"];
+var field_options		= ["user-name", "display-name", "profile-name"];
+var input_names 		= ["new_username", "new_displayname", "new_profilename"];
 var input_default    	= [currentUser, currentDisplayName];
 
 function loadSettingFields() 
@@ -10,6 +10,21 @@ function loadSettingFields()
 	}
 }
 
+function displayFormUpdate(notification, toastClass)
+{
+	$("#settings-toast").fadeIn("slow");
+	$("#settings-toast").html(notification);
+	$("#settings-toast").addClass(toastClass);
+	setTimeout(function () {
+		$("#settings-toast").fadeOut("slow");
+		setTimeout(function	() 
+		{
+			$("#settings-toast").removeClass(toastClass);
+			$("#settings-toast").html(notification);
+		}, 750);
+	}, 2000);
+}
+
 function formUpdateResult(result)
 {
 	var setNotification;
@@ -18,28 +33,20 @@ function formUpdateResult(result)
 	{
 		setNotification = '<span class="fa fa-check" style="padding: 11px;"></span> All fields have been updated successfully.';
 		setToastClass = "success";
+		displayFormUpdate(setNotification, setToastClass);
 	}
-	if (result == false)
+	else if (result == false)
 	{
 		setNotification = '<span class="fa fa-times" style="padding: 11px;"></span> All fields have failed to update.'
 		setToastClass = "failure";
+		displayFormUpdate(setNotification, setToastClass);
 	}
-	if (result == "half")
+	else if (result == "half")
 	{
 		setNotification = '<span class="fa fa-warning" style="padding: 11px;"></span> Some of your fields failed to update.'
 		setToastClass = "warning";
+		displayFormUpdate(setNotification, setToastClass);
 	}
-	$("#settings-toast").fadeIn("slow");
-	$("#settings-toast").html(setNotification);
-	$("#settings-toast").addClass(setToastClass);
-	setTimeout(function () {
-		$("#settings-toast").fadeOut("slow");
-		setTimeout(function	() 
-		{
-			$("#settings-toast").removeClass(setToastClass);
-			$("#settings-toast").html(setNotification);
-		}, 750);
-	}, 2000);
 }
 
 function processFormData(array)
@@ -113,6 +120,7 @@ $(document).ready(function (e) {
 		
 			reader.onload = function(e) {
 				$('#new_profilepicture_display').attr('src', e.target.result);
+				$("#profile-picture-update-hint").html("");
 			}
 		
 			reader.readAsDataURL(input.files[0]);
@@ -123,7 +131,7 @@ $(document).ready(function (e) {
 		readURL(this);
 	});
 	
-	$("input[type='image']").click(function() {
+	$("#new_profilepicture_overlay").click(function() {
 		$("input[id='new_profilepicture']").click();
 	});
 	
@@ -156,6 +164,7 @@ $(document).ready(function (e) {
 				var dataParse = JSON.parse(data);
 				var updateStatus;
 				$.each(dataParse, function(field) {
+					console.log(dataParse[field]);
 					var updateSuccess = processFormData(dataParse[field]);
 					if ((updateStatus == true && updateSuccess == false) || (updateStatus == false && updateSuccess == true))
 					{
@@ -175,4 +184,3 @@ $(document).ready(function (e) {
 	   });
 	}));
 });
-  
